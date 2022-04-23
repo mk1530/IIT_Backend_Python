@@ -14,32 +14,10 @@
 
 
             <div class="bg-white box-shadow-v2 rounded text-center p-5">
-                <h1>THE TONER</h1>
-                <h2></h2>
-
-                <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
 
 
-                <img src="{{ url_for('static', filename='img/pngegg.png') }}"  width="300" />
-
-
-                <div class="text-center">
-                    <a class="btn btn-green btn-lg mb-4" onclick="performPostRequest()"  style="margin-top: 30px; margin-right: 15px;">Submit Text</a>
-
-                    <a class="btn btn-green btn-lg mb-4" onclick="clr()"  style="margin-top: 30px; margin-left: 15px;">Clear Text</a>
-                </div>
-
-                <H1 class="mb-4">Or</H1>
-
-
-
-
-
-
-
-                <h1>Upload a file with the fasta formatted sequence(s) here </h1>
-                <div class="text-center">(You can upload upto 1 file. Max file size is <b>1.5GB</b>)</div>
-                <div class="text-center" style="color:#8a5c5c"><b>Accepted file formats: .fasta, .txt, .fasta.gz/zip or .txt.gz/zip</b></div>
+                <h1 style="font-family: 'Square Peg', cursive; font-size: 45px !important;">Upload your music below </h1>
+                <div class="text-center" style="color:#8a5c5c;font-family: 'Cinzel', serif;"><b>Only .mp3 files are allowed</b></div>
 
 
 
@@ -52,54 +30,19 @@
 
 
 
-                <form method="post" name="files" action="{{url_for('dashboard')}}" data-ajax="false" class="dropzone Bcop" id="dropzones" enctype="multipart/form-data" style="min-height: 150px;min-width: 100%;border:inset 1px;box-shadow: 0 0 0 darkolivegreen, 0 5px 10px rgba(0, 0, 0, .15);" >
+                <form method="post" name="files" action="{{url_for('login')}}" data-ajax="false" class="dropzone" id="dropzones" enctype="multipart/form-data" style="min-height: 150px;overflow:auto;min-width: 100%;border-radius:100px;box-shadow: inset 0 0 2.85px !important;padding:2.5%;" >
                     <div class="fallback">
-                        <input type="file" name='files' id="file-names" accept=".fasta,.fastq,.txt,.gz,.zip" />
+                        <input type="file" name='files' id="file-names" accept=".mp3" />
 
 
                     </div>
 
                 </form>
 
-                <div class="text-center">
-                    <a class="btn btn-green btn-lg mb-4" id="filesubmit" onclick="filesubmit()"  style="margin-top: 30px; margin-right: 15px;;">Submit File</a>
 
-
-                </div>
-
-                <div class="container text-center" id="erp">
-                    <errorpanel class="erpl text-center" >
-                        <span> Processing your file</span>
-                        <div class="lds-ellipsis"><div></div><div></div><div></div><div></div></div>
-                    </errorpanel>
-                </div>
-                <div class="card">
-                    <div class="card-header">
-                        <b>Example Files (Click to download)</b>
-                    </div>
-                    <div class="card-body" style="">
-                        <!--li >
-                            <a href={{'download_lg4_file?file_number=1'}} style="color: cornflowerblue;">
-                                <u>Example50k_to_paste.txt</u></a>
-                        </li>
-                        <li >
-                            <a href={{'download_lg4_file?file_number=2'}} style="color: cornflowerblue;">
-                                <u>Example350k_to_upload.txt</u></a>
-                        </li>
-                        <li >
-                            <a href={{'download_lg4_file?file_number=3'}} style="color: cornflowerblue;"><u>Example50k_results.txt</u></a></li>
-                        <li ><a href={{'download_lg4_file?file_number=4'}} style="color: cornflowerblue;"><u>Example350k_results.txt</u> </a>
-                        </li!-->
-
-                    </div>
-                </div>
-
-
-
-
-
-
-
+                <a  class="buttonn mb-2" id="filesubmit"  title="Register on Toner App" style="margin-top:60px;border-radius: 200px; cursor: pointer;" onclick="filesubmit()"  >
+                    <span class="bbn" style="border-bottom:solid 2px rgba(300,175,125,85);opacity: 0.85;border-radius: 500px;text-shadow: 1px 1px 1px rgb(218,165,32) !important;font-size:large;min-width: 175px" >Done</span>
+                </a>
 
 
             </div>
@@ -108,25 +51,6 @@
         </div>
 
 
-        <div class="card" style="border-radius: 12px;box-shadow: 0 0 0 darkolivegreen, 0 5px 10px rgba(0, 0, 0, .15); ">
-            <div class="card-header cdbk">
-                <h5 style="color: rgb(17, 17, 17);"><b> Contact:</b></h5>
-                <a  style="color:#8a5c5c"><b>Queries or Concerns? Send us an email and we will get back to you as soon as possible: </a><a style="color: darkblue;margin-left: 5px;"><u>lg4search@gmail.com</u></a></b>
-                <a style="color: darkblue;" href="mailto:lg4search@gmail.com?Subject=LG4ID%20Query" target="_top"><i class="far fa-envelope"></i></a>
-
-
-
-            </div>
-            <div class="card-body ">
-                <u><a style="font-size: larger; color: black; font-weight: bolder;">Please Cite:</a></u><b> <i> Jonathan D Williams, Dominika Houserova, Bradley R Johnson, Brad Dyniewski, Alexandra Berroyer, Hannah French, Addison A Barchie, Dakota D Bilbrey, Jeffrey D Demeis, Kanesha R Ghee, Alexandra G Hughes, Naden W Kreitz, Cameron H McInnis, Susanna C Pudner, Monica N Reeves, Ashlyn N Stahly, Ana Turcu, Brianna C Watters, Grant T Daly, Raymond J Langley, Mark N Gillespie, Aishwarya Prakash, Erik D Larson, Mohan V Kasukurthi, Jingshan Huang, Sue Jinks-Robertson, and Glen M Borchert. G4-rich regions of the human genome are associated with increased genomic variation and form higher order, composite G4 structures via a novel loop:loop kissing interaction in vitro. Nucleic Acids Research, 2020 Apr. doi.org/10.1093/nar/gkaa357 PMID: 32383760
-
-            </i></b>
-            </div>
-            <div class="card-footer text-center cdft">
-                Copyright © - University of South Alabama
-            </div>
-
-        </div>
 
 
     </div>
@@ -134,26 +58,6 @@
 
 
 </section>
-
-<section class="  page-section text-center"  style=" padding-bottom: 20px; padding-top:30px;  ">
-
-
-
-
-    <h1 class="text-black  mb-5" id="result-panel" style="margin-top: 10px;text-shadow:1px 1px 1.5px #ffffff" >Results</h1>
-    <a href="#" class="d-none d-sm-inline-block btn btn-green  shadow-sm" onclick="dw_file()" style="margin-right: 25px; width: 30%;"><i class="fas fa-download fa-sm text-white-50"></i> Download Result</a>
-
-
-    <div id="postResult" class="card-body text-center page-section" style="border:1px;color: black;"></div>
-
-</section>
-
-
-
-<!---	<button onclick="sayHI()">Say HI</button> --->
-<!---<button onclick="unknownCmd()">Send unknown command</button>
-<button onclick="stop()">Stop worker</button>
-<output id="result"></output> --->
 
 
 
@@ -167,7 +71,6 @@
         };
     }
 
-    //document.getElementById('erp').hide();
     var totalfiles=[];
     var file_json={
 
@@ -175,11 +78,7 @@
     var up_file_id='';
     var finished_files=0;
 
-    error_text="<img  src="+"{{url_for('static', filename='error.svg') }}"+"  style="+'max-width:100px;'+">";
 
-    document.getElementById('inputText').value='';
-
-    document.getElementById('erp').hidden=true;
     let download_text='';
 
 
@@ -195,9 +94,6 @@
 
         document.body.removeChild(element);
     }
-
-    //sessionStorage['up_to_date_files']=JSON.stringify(file_json);
-    //alert(sessionStorage['up_to_date_files']);
 
     function clr(){
         document.getElementById('inputText').value='';
@@ -237,10 +133,7 @@
             completed: false
         })
             .then(function (response) {
-                //console.log("before response");
-                //console.log(response);
-                //resultElement.innerHTML = response.data;
-                //download('hellowold.txt',);
+
                 resultElement.innerHTML = response.data.vioAllDiv;
                 download_text=response.data.vioAllScript;
                 var elmnt = document.getElementById("result-panel");
@@ -252,150 +145,38 @@
             });
 
     }
-    /*var value = $('textInput').val();
-    $.ajax({
-      type: 'POST',
-      url: "{{ url_for('upload') }}",
-      data: JSON.stringify(value),
-      contentType: 'application/json',
-      success: function(data){
-        // do something with the received data
-      }
-    });
-    */
 
     document.addEventListener("DOMContentLoaded", function() {
         // access Dropzone here
 
         Dropzone.autoDiscover=false;
         var dropzone = new Dropzone('#dropzones', {
-            autoProcessQueue: true,
-            parallelUploads: 1,
-            maxFilesize: 1590,
-            maxFiles:1,
-            // chunking: true,
-            //forceChunking: true,
-            //chunkSize:1000000,
+            autoProcessQueue: false,
+            parallelUploads: 10,
+            maxFilesize: 50,
             timeout:1200000,
 
-            //addRemoveLinks: true,
-            //forceFallback: true,
-            acceptedFiles: ".fasta,.fastq,.fasta.gz,.fasta.zip,.FASTA,.FASTQ,.txt,.txt.gz,.txt.zip,.fa,.fa.gz,.fa.zip",
+            acceptedFiles: ".mp3",
             dictDefaultMessage: "Drop files here or click here to begin",
             dictDuplicateFile: "Duplicate Files Cannot Be Uploaded",
 
             preventDuplicates: true,
             init:function() {
 
-                this.on("addedfile", function(file) {
-                    var ufile_id=uuidv4();
-                    this.up_file_id=ufile_id;
-
-
-                    // Handle adding files
-                    //alert(file.size);
-                    //var extension=file.name.split('.')[1];
-                    //if((file.name.match(/\.fasta$/g,'i')==null)&&(file.name.match(/\.fastq$/g,'i')==null)){
-                    // alert("Sorry you can't files of type: "+file.name.split('.')[1]);
-                    // dropzone.removeFile(file);
-
-                    //}
-                    //alert(sessionStorage['sfr_mgmhy']);
-                    if(totalfiles.includes(file.name)){
-                        alert('Sorry! Cannot upload multiple files with the same name');
-                        dropzone.removeFile(file);
-                        totalfiles.push(file.name);
-                        file_json[file.name]=ufile_id;
-                        up_file_id=ufile_id;
-                        //sessionStorage['lagune_up_to_date_files']=JSON.stringify(file_json);
-                        // sessionStorage['lagune_only_flist']=JSON.stringify(totalfiles);
-                    }
-                    else {
-                        totalfiles.push(file.name);
-                        file_json[file.name]=ufile_id;
-                        up_file_id=ufile_id;
-                        //sessionStorage['lagune_up_to_date_files']=JSON.stringify(file_json);
-                        //sessionStorage['lagune_only_flist']=JSON.stringify(totalfiles);
-                    }
-
-                    if (file.size>=1600000000){
-                        alert('Currently we only allow a maximum file size of 1.5 GB due to resource limitations. Please compress and upload your huge file: '+file.name);
-                        //return();
-                        dropzone.removeFile(file);
-                    }
-                    else {
-
-
-                        if ((file.name.match(/\.gz$/g) == null) && (file.name.match(/\.zip$/g) == null) && (file.name.match(/\.rar$/g) == null)) {
-                            //alert(file.name);
-                            document.getElementById('erp').hidden = false;
-
-                            var blob = new Blob([document.getElementById('worker').text], {type: 'text/javascript'});
-                            var blobURL = window.URL.createObjectURL(blob);
-                            // Compressing data may take some time, we don't want to block the main thread. Do this in a WebWorker
-                            var worker = new Worker(blobURL);
-                            worker.addEventListener('message', function (e) {
-                                if(e.data==='started'){
-                                    document.getElementById('erp').hidden = false;
-                                    //document.getElementById('lagun_all_button').hidden=true;
-                                    //console.log(e);
-
-                                }
-                                //console.log(e);
-                                else {
-                                    document.getElementById('erp').hidden = false;
-                                    //document.getElementById('lagun_all_button').hidden=true;
-                                    var myBlob = e.data;
-                                    myBlob.name = file.name + ".gz";
-                                    //alert(myBlob.name);
-                                    // Add compressed file to upload form
-
-
-                                    dropzone.addFile(myBlob);
-                                }
-                            }, false);
-                            worker.postMessage(file);
-                            //document.getElementById('erp').hidden = false;
-
-                            dropzone.removeFile(file);
-
-
-                        } else {
-                            document.getElementById('erp').hidden = true;
-
-                        }
-                    }
-                    //document.getElementById('erp').hidden=true;
-                    //alert(JSON.stringify(file_json));
-                });
                 this.on("removedfile",function(file){
                     var boo=totalfiles.indexOf(file.name);
                     totalfiles.splice(boo,1);
                     delete file_json[file.name];
                     up_file_id='';
-
-                    //sessionStorage['lagune_up_to_date_files']=JSON.stringify(file_json);
-                    //sessionStorage['lagune_only_flist']=JSON.stringify(totalfiles);
                 });
                 this.on("sending",function(file,xhr,formData){
-                    //document.getElementById('lagun_all_button').hidden=true;
-                    document.getElementById('erp').hidden = true;
                     formData.append("file_ID",get_fileID(file.name));
-                    //$('#mybutton').prop('disabled', true);
                 });
                 this.on("complete",function(file){
-                    // document.getElementById('lagun_all_button').hidden=false;
-                    document.getElementById('erp').hidden = true;
-                    //this.up_file_id=ufile_id;
-                    //document.getElementById('lagun_all_button').hidden=false;
-                    //alert('Received: '+file.name+'::'+get_fileID(file.name));
 
                 });
                 this.on("processing",function(){
-                    //document.getElementById('lagun_all_button').hidden=true;
-                    document.getElementById('erp').hidden = false;
-                    //document.getElementById('mybutton').hidden=false;
-                    //alert('Received: '+file.name+'::'+get_fileID(file.name));
+
 
                 });
 
@@ -403,7 +184,6 @@
                     alert("Oops! Maximum file upload limit reached! removed the file from list: "+file.name );
                     dropzone.removeFile(file);
                 });
-                //document.getElementById('mybutton').hidden=false;
 
 
             }
@@ -442,9 +222,7 @@
         })
             .then(function (response) {
                 fileclr();
-                //console.log("before response");
-                //console.log(response);
-                //console.log(response);
+
                 download_text=response.data.vioAllScript;
                 resultElement.innerHTML = response.data.vioAllDiv;
                 var elmnt = document.getElementById("result-panel");
@@ -452,11 +230,8 @@
             })
             .catch(function (error) {
                 console.log("error");
-                //resultElement.innerHTML = generateErrorHTMLOutput(error);
             });
     }
-
-    //Remove files
 
     function dw_file(){
         //alert(moment());
@@ -627,6 +402,7 @@
 
 
 
+<script type="text/javascript" src="{{url_for('static', filename='dropzone.js') }}"></script>
 
 
 <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='uploadwithstyle.css') }}">
