@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+      <meta http-equiv="x-ua-compatible" content="ie=edge">
+      <meta name="description" content="A complete landing page solution for any business">
+      <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+   <link href="https://fonts.googleapis.com/css?family=Raleway:400,600" rel="stylesheet">
+
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Square+Peg&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel&display=swap" rel="stylesheet">
+
+
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static2.css') }}">
+	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static1.css') }}">
+	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bundle.css') }}">
+	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='ggl.css') }}">
+
+
+
+
+
+        <title>TONER</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/favpng_saxophone-icon.png') }}">
+		{% with messages = get_flashed_messages() %}
+   {% if messages %}
+     <ul class="flashes">
+        {% for message in messages %}
+         <script> alert('{{ message }}');</script>
+        {% endfor %}
+    </ul>
+  {% endif %}
+ {% endwith %}
+    
+</head>
+<body id="top">
+    <header class="header header-shrink header-inverse fixed-top" style="background-color:#003366;text-shadow:1px 1px 4px #000000 ">
+         <div class="container">
+            <nav class="navbar navbar-expand-lg">
+               <a class="navbar-brand" href="{{url_for('home')}}">
+
+               <span class="row">
+
+
+
+
+
+               <h2 class="logo-brand-color" style="color:white;font-family: 'Square Peg', cursive; font-size: 40px !important;">Toner</h2>
+                   &nbsp;
+
+                                      <img src="{{ url_for('static', filename='img/favpng_saxophone-icon.png') }}" width="65" />
+
+
+               </span>
+
+
+               </a>
+               <button class="navbar-toggler p-0" data-toggle="collapse" data-target="#navbarNav">
+                  <div class="hamburger hamburger--spin js-hamburger">
+                     <div class="hamburger-box">
+                        <div class="hamburger-inner"></div>
+                     </div>
+                  </div>
+               </button>
+               <div class="collapse navbar-collapse" id="navbarNav">
+                  <ul class="navbar-nav ml-auto">
+                    
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('register')}}" data-scrollto="features" style="color: #fccc5f !important; ">REGISTER</a>
+                     </li>
+                     <li class="nav-item">
+                        <a class="nav-link" href="{{url_for('login')}}" data-scrollto="reviews" style="color: #fccc5f !important;">LOG IN</a>
+                     </li>
+                    
+                  </ul>
+               </div>
+            </nav>
+         </div>
+      </header>
+	   {% block content %}{% endblock %}
+   
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+	
+
+	<script type="text/javascript" src="{{url_for('static', filename='jquery.min.js') }}"></script>
+	
+	</body>
+	
+</html>

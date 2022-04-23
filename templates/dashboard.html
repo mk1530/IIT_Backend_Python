@@ -1,0 +1,1732 @@
+{% extends "layout.html" %}
+{% block content %}
+
+
+<div id="boobo">
+    <section class=" bg-grey " style="min-height: 100%">
+        <div id=session_{{title}} class="modal">
+
+            <!-- Modal content -->
+            <div class="modal-content" >
+                <span id="close" class="close">&times;</span>
+                <div class="text-center" style="padding: 2%">
+                    <div>Your current session key :: {{session['sfr_mgmhy']}}</div>
+                    <br> Please save/copy the above secure key for you to access your results in the future and merge multiple sessions (up to several weeks).
+
+                    <div style="margin-top: 10%">
+                        <a class="btn btn-rounded btn-green " style="float: left"  href="{{'get-file?lg-su=surfr'}}">Download Session Key</a>
+                        <a class="btn btn-rounded btn-green u-w-170" style="float: right"  onclick="reset_sess()">reset session</a></div></div>
+                <div class="mb-4 text-center"> Clicking on "reset session" below will restart your analysis session. i.e., A new ID will be generated for you to start a new analysis with new set of files.
+                    (you will be redirected to the home page)
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="container myth text-center mb-4" style="margin-top: 60px;border-color: darkgrey; border-radius: 20px; box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);padding: 0;min-width: 85%">
+            <div class="card navbar navbar-expand-lg navbar-light " style="border-radius: 20px;">
+
+                <h1 class="display-4 mb-3" style="font-size:2.8em;font-family: 'Sawarabi Mincho', sans-serif; margin-top: 20px;text-shadow:-1px 1px 1px #ffffff,1px 1px 1px #23430C;">ncRNA visual differential analytics platform.</h1>
+                <div class="u-h-4 u-w-50 bg-primary rounded mt-2  "></div>
+                <div class="jumbotron my-4" style="min-width:85%;border-radius: 20px ;padding:2.5%">
+
+                    <p class="lead" > This is an exploratory platform to perform visual differential expression analysis using our concept of "Differential Expression Vectors". The highlighted regions in the graphs represent miRNA-like RNAs that are being derived from the ncRNA.
+                    </p>
+
+
+                </div>
+
+                <!-- Collapse button -->
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent1"
+                        aria-controls="navbarSupportedContent1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Collapsible content -->
+                <div class="card collapse navbar-collapse " id="navbarSupportedContent1" style="border-radius: 20px;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);width: 100%">
+
+                    <!-- Links -->
+                    <ul class="card navbar-nav mr-auto myth" style=" border-radius: 20px;width: 100%">
+
+                        <!-- News -->
+                        <li class="nav-item dropdown mega-dropdown" style="width: 100%">
+
+                            <a class=" dropdown-toggle" style="float: left;cursor: pointer" id="navbarDropdownMenuLink1" data-toggle="dropdown"
+                               aria-haspopup="true" aria-expanded="false"> <label style="font-weight: bold; color: black; height: auto;cursor: pointer">Click Here To Choose Your File:  </label>
+
+                            </a>
+                            <label style="color: black">Selected File:</label><span  style="color: #832A0D; font-weight: bold;  " > [[get_sel_name]] </span>
+
+
+                            <div class="dropdown-menu card-body mega-menu v-1 z-depth-1 white px-3"
+                                 aria-labelledby="navbarDropdownMenuLink1 navbarDropdownMenuLink2" style="border-color: darkgrey;border-radius:20px; box-shadow: 0 0 0 darkolivegreen, 2px 2px 2px rgba(0, 0, 0, .35);width: 100%">
+                                <div class="col-lg-12 mx-autoy text-center" style="width: 100%" >
+
+
+                                    <h4 >Uploaded Files <label>  <i class="fas fa-question-circle fa-sm" title="Click on a row to select the file" style="color: #011627; vertical-align: hanging"></i></label>
+
+                                    </h4>
+
+                                    <label style="font-weight: bold; color: black; height: auto; ">Selected File: <span  style="color: #e30000; font-weight: bold; max-width: 100px; overflow-x: scroll; " >[[get_sel_name]] </span> </label>
+                                    <div class="u-h-4 u-w-50 bg-primary rounded mt-4 u-mb-40 mx-auto"></div>
+
+                                    <div style=" overflow-y: scroll; ">
+                                        <table class="table table-hover table-bordered " style="table-layout: fixed; width: 100%; display: table" >
+
+
+                                            <thead style=" border-style: outset;  border-width: 1px; color: #003366;" class=" myth">
+                                            <tr >
+                                                <th style="width: 65%;">File Name</th>
+                                                <th>Status</th>
+
+                                            </tr>
+                                            </thead>
+                                        </table>
+                                    </div>
+                                    <div style="height: 300px; overflow-y: scroll;  border-color: black;  margin-top: -15px">
+                                        <table class="table table-hover table-bordered " style="table-layout: fixed; width: 100%; display: table" >
+                                            <tbody style="font-family: 'Courier New'">
+                                            <template>
+                                                <tr  v-for="filei in all_files_up" :id=[[filei.f_id]] v-on:click="fileClicked(filei)" v-bind:class="{'highlight': (filei.f_id == get_sel_id)}" >
+                                                    <td  :title=[[filei.f_name]] style="font-size: large; width: 65%">
+                                                        [[carenames(filei.f_name,10)]]
+
+
+                                                    </td>
+                                                    <td  >
+                                                        <template v-if="filei.status==='received'">
+                                                            <div class="lds-ellipsis" ><div></div><div></div><div></div><div></div></div>
+                                                        </template>
+                                                        <template v-else-if="filei.status==='started'" title="Status::started">
+                                                            <div class="lds-circle" title="Status::started analysis"><div></div></div>
+                                                        </template>
+                                                        <template v-else-if="filei.status==='Finalizing'" title="Status::Finalizing the results">
+                                                            <div class="lds-default" title="Status::Finalizing"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                                        </template>
+                                                        <template v-else-if="filei.status==='done'" title="Status::Done" ><img  src="{{url_for('static', filename='done.svg') }}" style=" max-width: 50px;" title="Status::Done"></template>
+                                                        <template v-else-if="filei.status==='error'" title="Status::Error"><img  src="{{url_for('static', filename='error.svg') }}"  style="max-width:50px;" title="Status::Error"></template>
+
+                                                        <template v-else-if="filei.status==='downloading'" title="Status::Error">
+                                                            <div class="lds-spinner"><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div><div></div></div>
+                                                        </template>
+
+                                                    </td>
+
+                                                </tr>
+                                            </template>
+
+
+                                            </tbody>
+                                        </table>
+                                    </div>
+
+
+
+                                </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                    <!-- Links -->
+
+                    <!-- Links -->
+
+                    <!-- Links -->
+
+                </div>
+                <!-- Collapsible content -->
+
+
+            </div>
+        </div>
+        <div class="container text-center mb-3" id="erp" style="">
+
+            <div class="row text-center">
+                <div class=" col-xl-3 col-md-6 text-center">
+                    <div class="card myth h-80 " style="border-color: darkgrey; border-radius: 20px;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);">
+                        <div class="card-body ">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary  mb-1" style="">File Size (GB)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">[[file_size]]</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="card myth h-80 " style="border-color: darkgrey; border-radius: 20px;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-success  mb-1" style="">Total Reads (Million)</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800">[[(total_reads/1000000).toFixed(2)]]</div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-md-6 text-center">
+                    <div class="card myth h-80 " style="border-color: darkgrey;  border-radius: 20px;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-info  mb-1" style="">Mapped Reads (Million)</div>
+
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">[[aligned_reads]]</div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <div class="col-xl-3 col-md-6 text-center" >
+                    <div class="card myth h-80 " style="border-color: darkgrey;  border-radius: 20px;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);">
+                        <div class="card-body">
+                            <div class="row no-gutters align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-danger  mb-1" style="" >Time Taken (min:sec)</div>
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">[[total_time]]</div>
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="container text-center rowpp" style="min-width: 90%;padding: 20px !important;">
+
+
+            <div class="columnss">
+            <div class="buttonn " id="bupin" title="Create a ncRNA profile with uploaded files" style="margin-top: -20px; font-size: large; float:left;border-radius: 20px;cursor: pointer" v-on:click="ncr_prof()">
+                <span class="bbn vs__dropdown-menu" style="letter-spacing:.1em;font-family: 'Raleway', sans-serif !important;border-bottom:solid 2px rgba(300,175,125,85);opacity: 0.8;box-shadow: 0 0 0 darkolivegreen, 0 1px 1px rgba(0, 0, 0, .2) !important;border-radius: 20px;">  Create ncR Profile</span>
+            </div>
+            </div>
+
+            <div class=" text-center columnss " style="padding: 2px">
+            <div class="astrodivider " title="Powered By SALTS" style=" float:top;margin:6px;"><span class="vs__dropdown-toggle"><i class="btcl " style=" box-shadow: inset 0 0 2.85px !important;"><img  src="{{ url_for('static', filename='img/try.svg') }}" width="16" /></i></span></div>
+
+        </div>
+
+
+            <div class="columnss">
+            <div class="buttonn " href="#" title="Download all the results" style="margin-top: -20px;  font-size: large; margin-right: 0;border-radius: 20px;float:right !important;cursor: pointer" v-on:click="genrate_frag()">
+                <span class="bbn vs__dropdown-menu" style="letter-spacing:.1em;font-family: 'Raleway', sans-serif !important;border-bottom:solid 2px rgba(300,175,125,85);opacity: 0.8;box-shadow: 0 0 0 darkolivegreen, 0 1px 1px rgba(0, 0, 0, .2) !important;border-radius: 20px;">  Download Results</span>
+            </div>
+            </div>
+
+
+        </div>
+
+
+
+        <div class="container" style="margin-top: 3em;min-width: 100%;padding-left: 0.3%;padding-right: 0.3%;">
+
+            <div class="onlytwowrapper" style="min-width: 100%">
+
+
+                <div class=" mx-autoy " style="min-width:100% !important;max-width:100% !important;padding-bottom: 0 !important;padding-left:10px;padding-right:10px">
+                    <div class="container myth text-center mb-4" style="border-color: darkgrey; border-radius: 20px; box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);padding: 0;width: 100% !important;">
+                        <div class="card navbar navbar-expand-lg navbar-light liltab" style="border-radius: 20px;width: 100% !important;">
+
+
+
+
+                            <div class="card tab_thing " style="  border-radius: 12px;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);width:100%; padding:5px !important;">
+                                <h4 style="letter-spacing:.1em;text-shadow: 0px 1px 1px rgba(0,0,0,0.35) !important; " class="mb-2">Expressed small non-coding RNAs <label>  </label>
+                                </h4>
+                                <div style="margin-top: -25px">
+                                    <div class="vs__dropdown-menu" data-toggle="collapse" href="#collapseExample2" role="button" aria-expanded="false" aria-controls="collapseExample2" style="cursor:pointer;border-radius:20px;box-shadow: 0 0 0 darkolivegreen, 0px 2px 2px rgba(0, 0, 0, .35);float: left;font-size: large;margin-top:0px !important;padding-left:5px !important;padding-right:7px !important;height:30px"><a style="font-size: small;margin-top:10px !important;"><i class="fa fa-cogs" aria-hidden="true"></i> Filters</a></div>
+                                    <img class="myth " @click=goto_rnacent('1') style="margin-top:6px !important;cursor:pointer;border:outset 1px !important;  border-radius: 12px;box-shadow: 0 0 0 darkolivegreen, 0px 2px 2px rgba(0, 0, 0, .35); padding:1px !important;opacity: 0.9;float:right;" src="{{ url_for('static', filename='img/portfolio/rna_central.PNG') }}" width="100" />
+                                </div>
+                            </div>
+
+
+
+
+                            <!-- Content Column -->
+
+
+                            <div  class="collapse " id="collapseExample2" style="border-radius: 12px;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);width:100%; padding:5px !important;width: 100%;">
+
+
+
+                                <div class="card" style="box-shadow: 0 0 0 darkolivegreen, 2px 2px 2px rgba(0, 0, 0, .35);border-radius: 12px ">
+                                    <div class="card-body text-center">
+
+                                        <div class="rw" style="width: 100%;display: inline-block">
+                                            <div class="column" style="width: 25%">
+                                                <p>Choose column </p>
+                                                <select v-model="frag_filtercolumn" class="filthing browser-default custom-select custom-select-lg " style="width: 100%;box-shadow: 0 0 0 darkolivegreen, 2px 2px 2px rgba(0, 0, 0, .45); " >
+                                                    <option value="" disabled>Choose Column To Apply Filter</option>
+
+
+                                                    <option  v-for="filei in file_res_tab_cols" :id=[[filei.field]] :title=[[filei.field]] v-bind:value=[[filei.field]]>
+
+                                                        [[filei.title]]
+
+
+
+
+                                                    </option>
+
+
+                                                </select>
+                                            </div>
+                                            <div class="column" style="width: 25%">
+                                                <p>Choose filter:</p>
+                                                <select v-model="frag_fil_typ" class="browser-default custom-select custom-select-lg " style="width: 100%;box-shadow: 0 0 0 darkolivegreen, 2px 2px 2px rgba(0, 0, 0, .45); " >
+                                                    <option value="" disabled>Choose Filter Type</option>
+
+
+                                                    <option  v-for="filei in filter_types" :id=[[filei.fil_sym]] :title=[[filei.fil_name]] v-bind:value=[[filei.fil_sym]]>
+
+                                                        [[carenames(filei.fil_name,10)]]
+
+
+
+
+                                                    </option>
+
+
+                                                </select>
+                                            </div>
+                                            <div class="column " style="width: 25%">
+                                                <p>Value:</p>
+
+                                                <input type="text" class="form-control myth" v-model="frag_searchterms" placeholder="Enter Value To Filter Table" title="Enter how you want to filter the table" style=" padding:8px !important;color:#e30000; font-weight: normal; font-size:1em !important;box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .45);border-style: inset"/>
+
+                                            </div>
+
+
+                                            <div class="column" style="width: 25%">
+
+
+                                                <p>Reset :</p>
+                                                <a class=" btn-primary tex-white" type="button" v-on:click="file_rest_tab()" style="background-color:green;border-radius: 12px;cursor: pointer;box-shadow: 0 0 0 darkolivegreen, 2px 2px 2px rgba(0, 0, 0, .45);padding-right: 10px;padding-left: 10px;padding-bottom: 5px;padding-top: 5px;color:white !important;">Reset Filters <i class="fa fa-refresh" aria-hidden="true"></i></a>
+
+                                            </div>
+
+
+
+
+
+                                        </div>
+
+                                    </div>
+                                </div>
+
+
+
+
+                            </div>
+
+
+
+
+
+
+                            <div style="width: 100% !important;margin-top: 5px !important;">
+                                <example-component @onrowchange="ncr_change" @ondownloaded="frag_table_downloaded" :ini_sort="frag_ini_sort" :report_name="file_tab_rptname" :rep_gen="frag_table_rep" :tab_data="file_res_tab_data" :tab_columns="file_res_tab_cols" :tab_height="file_res_tab_heit" :tab_placeholder="file_res_tab_place" :tab_pagesize_sel="file_res_tab_size_sel" :tab_pers_id="file_res_tab_pers" :tab_pagesize="file_res_tab_size" :tab_filter="file_res_filter" :tab_rest="file_res_rested"></example-component>
+                            </div>
+
+
+
+
+
+
+
+
+
+
+
+
+                        </div>
+                    </div>
+                </div>
+
+
+
+            </div>
+        </div>
+
+        <div class="container myth text-center mb-4" style="border-color: darkgrey;  box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);padding: 0;font-family: 'Josefin Sans', sans-serif !important;min-width:85%">
+            <div class="card navbar navbar-expand-lg navbar-light " style="padding: 0.1%">
+
+                <template>
+                    <div id="form10"  class="card-body myth box-shadow-v2 rounded text-center p-2" title=" Selected ncRNA sequence with potential derived RNAs highlighted"   style="padding-left: 20px !important;padding-right: 20px !important; overflow-y: scroll; background-color: lightyellow;   text-align: justify; text-align-last: center; height: 175px;min-width: 100%;max-width:100%; " ><label style="font-weight: bold;color: #832A0D;">Selected ncRNA sequence (Any highlighted portions are ncR's miR-like behavior)</label><div class="vs__dropdown-menu" id="foobar" v-html="get_highlight" style="min-height:100px;border-radius: 20px;max-width: 100%;padding: 10px"></div></div>
+                </template>
+
+
+
+            </div>
+        </div>
+
+    </section>
+
+
+
+
+<section class="container " style="width: 100% !important;">
+    <div class="myth card tab_thing text-center" style="  border-radius: 12px;box-shadow: inset 0 0 2.85px !important;width: 100% !important;  padding: 40px !important;">
+        <h4 style="letter-spacing:.1em;text-shadow: 0px 1px 1px rgba(0,0,0,0.35) !important; " class="mb-2">small non-coding RNA (sncRNA) Visual Differential Expression Analytics<label>  </label>
+        </h4>
+
+    </div>
+</section>
+
+
+
+</div>
+<link href="https://fonts.googleapis.com/css2?family=Overlock&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='board_additional.css')}}">
+
+
+
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='uploadwithstyle.css') }}">
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='smnt.css') }}">
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='d_board.css') }}">
+
+
+<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+<script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+<script src="https://unpkg.com/tabulator-tables@4.7.2/dist/js/tabulator.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+{% block script %}
+
+
+<script >
+
+
+
+
+
+    //var
+
+
+    var boobo=new Vue({
+        el:'#boobo',
+        delimiters:['[[',']]'],
+        data:{
+            title:'SURFr',
+            //filename:'Hemlo',
+            statuses:{},
+
+            all_files:[],
+            selected_file:{},
+
+            selected_ncr:{},
+            file_size:'-',
+            total_reads:0,
+            aligned_reads:0,
+            f_tot_min:'00',
+            f_tot_sec:'00',
+            sequence_area:'non-coding RNA Sequence',
+            selected_dev:[],
+            malist:[1,2,3,4,5,6],
+            searchterm:'',
+            full_options:{},
+            full_series:{},
+            full_mirs:{kk:[]
+
+                },
+
+            full_no_lines:{},
+
+
+            frag_filtercolumn:'',
+
+            query:[],
+            selected_derived:[],
+            undone_files:[],
+            //selected_ncRNA:{'ncr_ID':'',ncr_},
+            read_dev:[],
+            mycheck:true,
+            selected_ncr_name:'',
+            selec_orga:'',
+
+            organism_name:'',
+
+            ht_tab_heit:'100%',
+            ht_tab_place:'No Data Available',
+            ht_tab_size_sel:[5,10,20,25,50],
+            ht_tab_pers:'exampleID',
+            ht_tab_size:25,
+            ht_tab_data:[],
+            ht_tab_cols:[
+                {title:"miRNA", field:"id", align:"center"},
+                {title:"miR Target", field:"gene", align:"center"},
+                {title:"Publications", field:"pubmed", align:"center"},
+            ],
+            fil_typ:'',
+            frag_fil_typ:'',
+            filter_types:[{'fil_name':'Equals','fil_sym':'='},{'fil_name':'Greater Than','fil_sym':'>'},{'fil_name':'Less Than','fil_sym':'<'},{'fil_name':'Like (partial match)','fil_sym':'like'},{'fil_name':'Not Equal To','fil_sym':'!='}],
+            filtercolumn:'',
+            frag_searchterms:'',
+            genrep:false,
+            frag_table_rep:false,
+            comparing_files:[],
+            all_file_names:{},
+            //Main Table Properties
+            mn_tab_heit:'822px',
+            mn_tab_place:'No Data Available',
+            mn_tab_size_sel:[5,10,50,100,200],
+            mn_tab_pers:'exampleID',
+            mn_tab_size:50,
+            mn_tab_data:[],
+            cur_filter:{},
+            rested:false,
+            mn_tab_cols:[
+
+                {title:"ncRNA", field:"lnc", responsive:0},
+
+                {title:"Derived RNA", field:"_id", responsive:0},
+                //{title:"Favourite Color", field:"col",formatter:function(cell, formatterParams){
+                // var value = cell.getValue();
+
+
+                // return "<a id=value><u><span v-on:click='genre()' style='color:blue; font-weight:bold;'>" + value + "</span></u></a>";
+
+                //}},
+                //{title:"Date Of Birth", field:"dob", align:"center", sorter:"date"},
+                // {title:"Driver", field:"car", align:"center"},
+
+            ],
+            mn_tab_rptname:'Derived_RNA_Profile_',
+            mn_ini_sort:'RNA_Type',
+            frag_ini_sort:'Expression',
+
+            file_res_tab_heit:'498px',
+            file_res_tab_place:'No Data Available',
+            file_res_tab_size_sel:[5,10,50,75],
+            file_res_tab_pers:'surf_res_ID',
+            file_res_tab_size:50,
+            file_res_tab_data:[],
+            file_res_filter:{},
+            file_res_rested:false,
+            file_res_tab_cols:[
+
+                {title:"Gene ID", field:"Gene_ID", responsive:0,formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        if(value==='surfr_na_cat'){
+                            return "N/A";
+                        }
+                        else {
+                            return value;
+                        }
+
+                    },
+
+                },
+
+                {title:"Transcript ID", field:"Transcript_ID", responsive:0,formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        if(value==='surfr_na_cat'){
+                            return "N/A";
+                        }
+                        else {
+                            return value;
+                        }
+
+                    },
+
+                },
+
+                {title:"Annotation", field:"Annotation", responsive:0,formatter:function(cell, formatterParams){
+                        var value = cell.getValue();
+                        if(value==='surfr_na_cat'){
+                            return "N/A";
+                        }
+                        else {
+                            return value;
+                        }
+
+                    },
+
+                },
+
+                {title:"Type", field:"RNA_Type", responsive:0},
+
+
+
+                {title:"Expression(RPM)", field:"Expression", responsive:0, sorter:"number"},
+
+
+
+
+
+                //{title:"Favourite Color", field:"col",formatter:function(cell, formatterParams){
+                // var value = cell.getValue();
+
+
+                // return "<a id=value><u><span v-on:click='genre()' style='color:blue; font-weight:bold;'>" + value + "</span></u></a>";
+
+                //}},
+                //{title:"Date Of Birth", field:"dob", align:"center", sorter:"date"},
+                // {title:"Driver", field:"car", align:"center"},
+
+            ],
+            graph_thing:{},
+            file_tab_rptname:'',
+            frag_table_rna_cent:'',
+
+            big_tab_rna_cent:'',
+
+            all_mirs:{},
+
+
+
+            user_value:[],
+            searchterms:'',
+            sterm_disabled:0,
+            rterm_disabled:0,
+            intervl:'',
+            results:[],
+            fins:false,
+            options: {
+                chart: {
+                    id: 'Differential Expression Vector',
+                    tools:{
+                        pan:true,
+                        zoom: {
+                            enabled: true,
+                            type: 'x',
+                            autoScaleYaxis: false,
+                            zoomedArea: {
+                                fill: {
+                                    color: '#90CAF9',
+                                    opacity: 0.4
+                                },
+                                stroke: {
+                                    color: '#0D47A1',
+                                    opacity: 0.4,
+                                    width: 1
+                                }
+                            }
+                        }
+                    },
+
+                },
+                xaxis:{
+                    type: 'string',
+                    //decimalsInFloat: 0,
+                    //floating:true,
+                    tickPlacement: 'between',
+
+
+
+                    labels:{
+                        //formatter:function(value){
+                        // return Math.round(value);
+                        //},
+                        // offsetX: 1
+                        hideOverlappingLabels: true
+                    },
+                    title:{text:'Position on ncRNA (nt) '}
+
+                    // categories: [1,5,10,15,20]
+                    //axisTicks:{
+                    //tickAmount:10
+                    //stepSize:1,
+                    //}
+                },
+                yaxis:{
+                    title:{text:'Expression (RPM)'}
+                },
+
+                stroke: {
+                    curve: 'smooth',
+                    width: 3
+                },
+                colors: ['#003366'],
+
+
+                noData: {
+                    text: 'Select a non-coding RNA from table on the left to see a graph',
+                    align: 'center',
+                    verticalAlign: 'middle',
+                    offsetX: 0,
+                    offsetY: 0,
+                    style: {
+                        color: 'red',
+                        fontSize: '15px',
+                        fontFamily: 'sans-serif'
+                    }
+                },
+                title: {
+                    text: '',
+                    align: 'left'
+                },
+                tooltip:{
+
+                    x:{show:false},
+                    theme:'light'
+
+
+
+
+                },
+                grid: {
+                    show: true,
+                    borderColor: '#90A4AE'},
+
+                annotations: {
+                    position:'front',
+
+
+                    xaxis: [],
+
+                }
+
+            }
+
+
+
+
+
+        },
+        methods:{
+            get_annt_thing:function(fid){
+                return "Chart_"+fid;
+            },
+
+            get_opt_thing:function(fid){
+                return this.full_options[fid];
+            },
+            get_ser_thing:function(fid){
+               // console.log(this.full_series);
+                return this.full_series[fid];
+            },
+
+            get_mir_thing:function(fid){
+                // console.log(this.full_series);
+
+                if(this.full_mirs.hasOwnProperty(fid)){
+                return this.full_mirs[fid];
+                }
+                else{
+                    return {}
+                }
+            },
+
+            set_omni:function(omniresults){
+                if(omniresults.length>=1)
+                {
+                    //alert(omniresults.length);
+                    this.ht_tab_data=omniresults;
+                }
+                else{
+                    this.ht_tab_data=[];
+                    this.ht_tab_place="No Data";
+                }
+            },
+            goto_rnacent(tabval){
+
+                if(tabval==='1'){
+                    if(this.frag_table_rna_cent===''){
+                        this.fire_pop('ncRNA required',"Please choose a non-coding RNA from the table below");
+                        return;
+                    }
+                    window.open('https://rnacentral.org/search?q='+this.frag_table_rna_cent.replace('surfr_na_cat',''));
+                }
+
+            },
+
+            obtain_org_name:function(org_id){
+
+                axios.get('/api/get_just_surf_org_name?f_org_id='+org_id).then(response=>(this.set_org_name(response['data']['f_org_name']['o_name_w'])));
+            },
+            set_org_name:function(oname){
+                //alert(oname);
+                this.organism_name=oname;
+            },
+
+            download_stuff:function(){
+                var file_id=[];
+                file_id.push(this.get_sel_id);
+                //alert(file_id);
+
+
+                if(this.get_sel_status==='done'){
+                    axios.get('/api/download_file_stuff?f_file_id='+file_id.join(';--;')).then(response=>(this.interact_data(response['data'])));
+
+                }
+                else if (this.get_sel_status==='error'){
+                    this.fire_pop('Error','No Results Available For The Selected File.');
+                }
+                else {
+                    this.fire_pop('Still Processing','Please Wait Until All Your Files Are Finished To Create ncR Profile');
+                }
+
+            },
+
+            ncr_prof:function(){
+                // location.href = "#profile_sec";
+
+
+
+                document.getElementById("profile_sec").scrollIntoView();
+
+                var final=[];
+                var doit=true;
+
+                for(let r=0;r<this.all_files.length;r++){
+
+                    if(this.all_files[r]['status']==='done'){
+                        final.push(this.all_files[r]['f_id'])
+                    }
+                    if(this.all_files[r]['status']==='processing') {
+                        doit=false;
+                    }
+
+                }
+
+
+                if(doit){
+                    this.comparing_files=final;
+
+
+
+                    //console.log(final);
+
+
+                }
+                else {
+                    this.fire_pop('Still Processing','Please Wait Until All Your Files Are Finished To Create ncR Profile');
+                }
+
+
+
+
+
+            },
+
+            rest_tab:function(){
+                this.searchterms='';
+                this.filtercolumn='';
+                this.fil_typ='';
+            },
+
+            file_rest_tab:function(){
+                this.frag_searchterms='';
+                this.frag_filtercolumn='';
+                this.frag_fil_typ='';
+            },
+            on_downloaded:function(value){
+                this.genrep=false;
+            },
+            frag_table_downloaded:function(){
+                this.frag_table_rep=false;
+            },
+            onrowchange:function(value,index){
+                //console.log(value);
+                if(value.length>0) {
+                    if (value[0]['id']) {
+
+                        axios.get('/api/get_omni_results?f_omni=' + value[0]['id']).then(response => (this.set_omni(response['data']['omni_results'])));
+
+                        this.big_tab_rna_cent=this.organism_name+'%20'+value[0]['Gene_ID'].split('.')[0]+'%20'+value[0]['Annotation'];
+                        //this.selected_ncr = value[0]['id'];
+                        //alert(this.selected_ncr);
+                        //this.searchterm=this.selected_ncr;
+
+
+
+
+
+                        var all_things=this.comparing_files;
+
+                        let seriesthing={};
+                        let ma_devs=value[0]['DEVs'];
+
+                        let ma_lines=value[0]['no_lines'];
+
+                        let ma_mirs=value[0]['mirs'];
+                        //console.log(value);
+
+                        for(let opp=0;opp<all_things.length;opp++){
+
+                            if(ma_devs[all_things[opp]]){
+
+                                let rpmdev=JSON.parse(ma_devs[all_things[opp]]);
+
+                                for(var i=0; i<rpmdev.length;i++){
+                                    rpmdev[i]=((rpmdev[i]/ma_lines[all_things[opp]])*1000000).toFixed(1);
+                                }
+
+                                seriesthing[all_things[opp]]=[{name:'Expression',data: rpmdev}];
+
+
+
+
+                            }
+
+                            else{
+
+                                var rpmdev=new Array(value[0]['length']).fill(0);
+
+                                seriesthing[all_things[opp]]=[{name:'Expression',data: rpmdev}];
+
+                            }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                        }
+
+                        this.full_series=seriesthing;
+                        //console.log(this.comparing_files)
+
+
+                        for(let mthing=0;mthing<all_things.length;mthing++){
+
+                            var my_ano=[];
+
+
+                            ApexCharts.exec(all_things[mthing], 'updateOptions', {
+                                annotations: {xaxis:my_ano,position:"front"}
+                            }, false, true);
+                            if(ma_mirs.hasOwnProperty(all_things[mthing])){
+
+                                let f_mir_val=ma_mirs[all_things[mthing]];
+                                if(f_mir_val===0){
+
+                                    var my_ano=[];
+
+
+                                    ApexCharts.exec(all_things[mthing], 'updateOptions', {
+                                        annotations: {xaxis:my_ano,position:"front"}
+                                    }, false, true);
+
+                                }
+                                else{
+
+                                    var mycolors=['#0084ff','darkcyan','#00e1ff',  '#a6ff00','red'];
+
+
+                                    var my_ano=[];
+                                    //console.log(f_mir_val);
+
+                                    //console.log(new_ncr);
+
+                                    for(let p=0;p<f_mir_val.length;p++){
+                                        var ana={};
+                                        ana['x']=f_mir_val[p]['start'];
+                                        ana['x2']=f_mir_val[p]['end'];
+                                        ana['fillColor']=mycolors[p%(mycolors.length)];
+                                        ana['label']={'borderColor':'black','position':'top',
+                                            'style': {
+                                                'fontSize': '10px',
+                                                'color': 'black',
+                                                'background': 'gold'
+                                            },
+                                            'text':'Potential derived RNA'
+                                        };
+                                        ana['opacity']=0.3;
+                                        my_ano.push(ana);
+
+                                        //console.log(this.sequence_area);
+
+
+                                        //console.log(ana);
+                                    }
+
+                                    //Object.assign(,);
+                                    //console.log(this.full_options);
+                                    //this.options=;
+                                    //this.full_mirs[all_things[mthing]]={ position:'front',xaxis:my_ano};
+                                    //console.log(this.full_mirs);
+
+                                    //let ma_mi=this.get_annt_thing(all_things[mthing]);
+                                    //console.log(ma_mi);
+                                    //console.log(this.$refs);
+                                    //let tempop=this.full_options;
+
+                                    //this.full_options[all_things[mthing]].annotations = {xaxis:my_ano,position:'front'};
+
+                                   // let myob={xaxis:[{x:10,x2:30,fillColor:'#90A4AE',label:{'borderColor':'black','position':'top',
+                                            //'style': {
+                                               // 'fontSize': '10px',
+                                                //'color': 'black',
+                                                //'background': 'gold'
+                                            //},
+                                            //'text':'Potential derived RNA'
+                                        //}
+
+                                    //}],position:'front'};
+
+                                    //Object.assign(tempop['496f4fb9a919206d6daf0ed643f1db22548f59d6df2f36afab58849d8a1da19f']['annotations'],myob);
+
+                                    //this.full_options=tempop;
+                                    //this.full_options = {...this.full_options, ...{"496f4fb9a919206d6daf0ed643f1db22548f59d6df2f36afab58849d8a1da19f":{'annotations':myob}}};
+
+                                    //let temob=this.get_opt_thing('496f4fb9a919206d6daf0ed643f1db22548f59d6df2f36afab58849d8a1da19f');
+
+                                    //temob.annotations=myob;
+
+                                    //this.full_mirs['kk'] = {...this.full_mirs['kk'], ...temob};
+
+                                    //console.log(this.full_options['496f4fb9a919206d6daf0ed643f1db22548f59d6df2f36afab58849d8a1da19f']);
+
+                                    //this.$refs[all_things[mthing]][0].addPointAnnotation({ position:'front',xaxis:my_ano});
+
+                                    //let ff=this.get_annt_thing('496f4fb9a919206d6daf0ed643f1db22548f59d6df2f36afab58849d8a1da19f');
+
+                                    ApexCharts.exec(all_things[mthing], 'updateOptions', {
+                                        annotations: {xaxis:my_ano,position:"front"}
+                                    }, false, true);
+
+
+
+
+
+                                }
+
+                            }
+
+
+                        }
+
+
+
+
+
+
+
+
+
+
+                        //console.log(this.full_series);
+
+
+
+
+                    }
+
+
+
+                }
+            },
+
+            ncr_change:function(value){
+
+                if(value.length>0) {
+                    if (value[0]['id']) {
+                        this.selected_ncr=value[0]['id'];
+                        this.read_dev=value[0]['DEV'];
+
+                        //console.log(value);
+                        this.frag_table_rna_cent=this.organism_name+'%20'+value[0]['Gene_ID'].split('.')[0]+'%20'+value[0]['Annotation'];
+                        //console.log(this.frag_table_rna_cent);
+
+
+                        this.selected_ncr_name=value[0]['Annotation'];
+
+
+
+
+                        if(value[0]['mirs']){
+                            var annots=[];
+
+
+                        for(let k=0;k<value[0]['mirs'].length;k++){
+
+                            var myob={};
+
+                            var myfrag=value[0]['mirs'][k];
+                            //console.log(myfrag);
+
+                            myob['start']=parseInt(myfrag['start']);
+                            myob['end']=parseInt(myfrag['end']);
+
+                            annots.push(myob);
+
+                        }
+                        //console.log(annots);
+
+                            this.selected_derived=annots;
+
+                        //console.log(value[0]['mirs']);
+
+
+                        }
+                        else{
+                            this.selected_derived=[];
+                        }
+
+
+
+
+
+                        // console.log()
+
+
+
+                        //console.log(value);
+                        //alert(this.selected_ncr);
+                        //this.searchterm=this.selected_ncr;
+                    }
+
+                }
+
+
+
+            },
+
+
+            genre:function(){
+
+                this.genrep=true;
+
+            },
+
+            genrate_frag:function(){
+                this.frag_table_rep=true;
+            },
+
+            fire_pop:function(ttl,txt){
+
+                Swal.fire({
+                    title: ttl,
+                    width:'68%',
+                    text:txt,
+                    icon: 'info',
+                    confirmButtonText: 'Got it!'
+                });
+
+
+            },
+            ensmbl:function(){
+
+
+                window.open('https://rnacentral.org/search?q='+this.big_tab_rna_cent.replace('surfr_na_cat',''));
+
+
+            },
+
+
+            addthings:function () {
+
+                let obj;
+//alert(sessionStorage['only_flist']);
+                if (sessionStorage.length>0) {
+                    //console.log('pilichiru');
+                    var readValue = JSON.parse(sessionStorage['only_flist']);
+                    //console.log(readValue);
+                    var file_to_id = JSON.parse(sessionStorage['up_to_date_files']);
+                    //console.log(file_to_id);
+                    //alert(file_to_id);
+                    //console.log(readValue);
+                    for (let i = 0; i < readValue.length; i++) {
+                        //if(readValue)
+                        this.all_file_names[file_to_id[readValue[i]].replace(/\s/g, '')]=readValue[i].split('.', 2)[0].replace(/\s/g, '');
+                        //console.log(this.all_file_names);
+                        obj = {};
+
+                        obj['f_id'] = file_to_id[readValue[i]].replace(/\s/g, '');
+                        // console.log(obj['f_id']);
+                        obj['f_name'] = readValue[i].split('.', 2)[0];
+                        obj['status'] = 'received';
+                        this.all_files.push(obj);
+                        //this.undone_files.push(file_to_id[readValue[i]]);
+                    }
+
+                    this.selec_orga=JSON.parse(sessionStorage['organism']);
+                    this.obtain_org_name(this.selec_orga);
+                    if(this.selec_orga!=='org_22'){
+                        this.mycheck=false;
+                    }
+
+                }
+                else{
+                    obj = {};
+                    obj['f_id']='9ee26523-f060-41c5-9db0-0ec4f7bc83c1';
+                    obj['f_name']='Experience_SURFr';
+                    obj['status']='done';
+                    this.all_files.push(obj);
+
+                }
+                this.selected_file=this.all_files[0];
+                //this.selected_file_id=this.all_files[0]['f_id'];
+                //console.log(this.all_files);
+                //alert(this.all_files);
+                //axios.get('/api/retrieveres',JSON.stringify({params:{booboo:this.allfiles}})).then(response=>(console.log(response.results)));
+                // console.log(this.all_file_names);
+            },
+
+            checkThings:function(all_sts){
+                //console.log(all_sts);
+                var afiles=this.all_files;
+                //console.log(afiles);
+                for(let honey=0; honey<all_sts.length;honey++){
+                    for (let b=0;b<this.all_files.length;b++){
+                        if(this.all_files[b]['f_id']===all_sts[honey]['_id']){
+                            this.all_files[b]['status']=all_sts[honey]['f_status'];
+                        }
+                    }
+
+                }
+                // console.log(this.all_files);
+
+
+
+
+
+                //if(this.selected_file_id)
+                //if(this.all_files[0]['status']==='done')
+                //for(let k=0;k<all_sts.length;k++){
+                // var new_f_id=all_sts[k]['_id'];
+                // var new_f_status=all_sts[k]['f_status'];
+                //var oldthing=;
+                //this.all_files.filter(function(elem){return elem.f_id===new_f_id})['status']=new_f_status;
+                //console.log(oldthing);
+                //console.log(this.all_files.filter(function(elem){return elem.f_id===new_f_id}));
+                // for(let j=0;j<this.all_files.length;j++){
+                //if(this.all_files[j].f_id===new_f_id){
+                // this.all_files[j].status=new_f_status;
+                // }
+                // if((new_f_status==='done')||(new_f_status==='error')){
+                // var el_loc=this.undone_files.indexOf(new_f_id);
+                // this.undone_files.splice(el_loc,1);
+                //  if((this.selected_file_id==='')&&(new_f_id===this.all_files[0]['f_id'])){
+                //this.selected_file_id='';
+                // this.selected_file_id=new_f_id;
+                // }
+                // }
+                //  }
+                // this.all_files[0].status='done';
+                //console.log(undone_files.length);
+                // if(this.undone_files.length===0){
+                //this.stopsts();
+                //this.fltr();
+                // }
+
+                // }
+                //var boo=totalfiles.indexOf(file.name);
+                //totalfiles.splice(boo,1);
+
+            },
+            updateStatus:function () {
+                let undone_files=[];
+                for(let t=0; t<this.all_files.length;t++){
+                    let bay=this.all_files[t]['status'];
+                    if((bay==='done')||(bay==='error')){
+
+                        //this.all_files[t];
+
+                    }
+                    else{
+                        undone_files.push(this.all_files[t]['f_id']);
+                    }
+                }
+                //console.log(undone_files);
+                if(undone_files.length===0){
+                    this.fins=true;
+                    //console.log('stopped');
+                    this.stopsts();
+
+
+                }
+                else {
+                    var ud_fj = undone_files.join(';--;').replace(/\s/g, '');
+                    //console.log(ud_fj);
+                    axios.get('/api/status_updates?f_status_ids=' + ud_fj).then(response => (this.checkThings(response['data']['f_updates'])));
+                    //axios.get('/api/status_updates?f_status_ids=' + ud_fj).then(response => (console.log(response['data']['f_updates'])));
+                }
+
+
+
+
+
+            },
+            stopsts:function () {
+
+                //alert(this.fins);
+
+                clearInterval(this.intervl);
+                // console.log('stopped already');
+            },
+
+            interact_data:function(my_data){
+                if (my_data) {
+                    if (my_data.hasOwnProperty('f_size')) {
+                        this.file_size = my_data['f_size'];
+                    }
+                    if (my_data.hasOwnProperty('no_lines')) {
+                        this.total_reads = my_data['no_lines'];
+                    }
+                    if (my_data.hasOwnProperty('mapped_reads')) {
+                        this.aligned_reads = (my_data['mapped_reads'] / 1000000).toFixed(2);
+                    }
+                    if (my_data.hasOwnProperty('f_total_min')) {
+                        this.f_tot_min = my_data['f_total_min'];
+                    }
+                    if (my_data.hasOwnProperty('f_total_sec')) {
+                        this.f_tot_sec = my_data['f_total_sec'];
+                    }
+                    if (my_data.hasOwnProperty('f_results')) {
+                        this.results = my_data['f_results'];
+
+                        if (my_data['f_results'].length > 0) {
+                            this.ncr_clickd(this.filteredRNAs[0]);
+                        }
+                    }
+
+                    if (my_data.hasOwnProperty('f_files_Data')) {
+                        //console.log(my_data['f_files_Data']);
+                        this.mn_tab_data = my_data['f_files_Data'];
+
+                    }
+                }
+                //aligned_reads:'0',
+                //total_time:'00:00',
+                //console.log(my_data);
+                //this.selected_file_id='15da545e-2c0f-40ef-9993-ff926e3d6d3a';
+
+            },
+            populate_aggregations:function (file_id) {
+                axios.get('/api/get_movak_aggr?f_file_ids='+file_id).then(response=>(this.interact_data(response['data'])));
+
+                //this.interact_data(response['data']['f_AllData'][0])
+
+
+            },
+            populate_results:function (file_id) {
+                axios.get('/api/get_ncr_data?f_file_id='+file_id).then(response=>(this.interact_data(response['data']['f_AllData'][0])));
+
+
+            },
+
+            get_surfr_results:function (file_id) {
+                axios.get('/api/get_surfr_results?f_file_id='+file_id).then(response=>(this.file_res_tab_data=response['data']['f_surfr_data']));
+
+
+            },
+            get_movak_results:function (file_id) {
+                axios.get('/api/get_movak_results?f_file_id='+file_id).then(response=>(this.file_res_tab_data=response['data']['f_movak_data']));
+
+
+            },
+            fileClicked:function (fle) {
+                this.selected_file=fle;
+                //this.selected_file_id=id;
+            },
+            calc_rpm:function(res){
+                //var dif_ex_v=JSON.parse(dev);
+                //var der=derived.replace('(','[').replace(')',']').split('<-->');
+                //console.log(res);//[0]['start']);
+                var postns=[];
+                var expns=[];
+                var resul=[];
+                for(let k=0;k<res.length;k++){
+                    postns.push('('+(res[k]['start']+1)+'-'+(res[k]['end'])+')');
+                    expns.push(((res[k]['expression']/this.total_reads)*1000000).toFixed(2));
+                }
+                //console.log(postns);
+                resul.push(postns);
+                resul.push(expns);
+                return resul;
+            },
+            carenames:function (names,num) {
+                if(names.length<=20){
+                    return names;
+                }
+                else{
+                    return names.substring(0,num)+'...'+names.slice(-num);
+                }
+
+            },
+            ncr_clickd:function (ncra) {
+                //this.selected_ncr='';
+                this.selected_ncr=ncra.ncr_ID;
+                this.read_dev=ncra.DEV;
+
+
+                this.selected_derived=ncra.derived_RNAs;
+                //console.log(ncra.derived_RNAs);
+                //axios.get('/api/get_ncr_sequence?f_file_id='+file_id).then(response=>(this.interact_data(response['data']['f_AllData'][0])));
+
+
+            },
+            fltr:function () {
+                window.location.reload(false);
+                //console.log(this.results);
+
+            },
+            kani:function (resp) {
+                this.sequence_area=resp['data']['f_sequence'];
+                //console.log(resp);
+
+
+
+            },
+            rightpressed:function () {
+                if(this.searchterm.length===0){
+                    this.searchterm=this.selected_ncr;}
+            },
+            escpr:function () {
+                this.searchterm='';
+            }
+
+
+
+        },
+        ready: function () {
+            //this.loadData();
+
+            //setInterval(function () {
+            // this.loadData();
+            //}.bind(this), 30000);
+
+            //this.addthings();
+            //this.loadData();
+
+        },
+        mounted:function () {
+            this.addthings();
+            this.updateStatus();
+            //alert('nannnu pilichiru');
+            //this.renderChart(this.chartdata, this.options);
+            //this.populate_results(this.selected_file_id);
+
+            this.intervl=window.setInterval(() => {
+                this.updateStatus()
+            }, 10000);
+            //console.log(this.all_files);
+
+
+
+
+
+        },
+
+        computed: {
+
+
+
+
+            filt_change:function(){
+
+                let mastu={};
+                mastu['column']=this.filtercolumn;
+                mastu['type']=this.fil_typ;
+                mastu['term']=this.searchterms;
+
+                return mastu;
+            },
+
+            frag_filt_change:function(){
+
+                let mastu={};
+                mastu['column']=this.frag_filtercolumn;
+                mastu['type']=this.frag_fil_typ;
+                mastu['term']=this.frag_searchterms;
+
+                return mastu;
+            },
+
+            total_time: function () {
+                // `this` points to the vm instance
+                return this.f_tot_min+':'+this.f_tot_sec
+            },
+            series:function(){
+                return [{name:'Expression',data:this.selected_dev}]
+            },
+            filteredRNAs:function () {
+                var self=this;
+                //console.log( this.results.filter(function (ncrna) {return ncrna.ncr_ID===self.searchterm;}));
+                if(this.results.length>0){
+                    return this.results.filter(function (ncrna) {return ncrna.ncr_ID.toLowerCase().indexOf(self.searchterm.toLowerCase())>=0;});}
+                else {
+                    return this.results;
+                }
+            },
+            res_len:function () {
+                return this.results.length;
+
+            },
+            get_highlight:function () {
+
+
+                if(this.query.length===0) {
+                    return this.sequence_area;
+                }
+                else{
+                    //console.log(this.query);
+                    return this.sequence_area.replace(new RegExp('('+this.query.join('|')+')', "gi"), match => {
+                        return "<span style='color: #e30000;  font-size: x-large; background-color: yellow'>" + match + '</span>';
+                    });}
+
+
+            },
+            all_files_up: function () {
+                return this.all_files;
+            },
+            get_sel_name:function () {
+                return this.selected_file['f_name'];
+
+            },
+            get_frag_name:function(){
+                return this.selected_file['f_name']+'_Derived_RNAs_';
+            },
+
+            get_sel_id:function () {
+                return this.selected_file['f_id'];
+            },
+            get_sel_status:function () {
+                return this.selected_file['status'];
+            },
+            get_place:function () {
+                return 'Example:-'+this.selected_ncr;
+
+            },
+            filt_change:function(){
+
+                let mastu={};
+                mastu['column']=this.filtercolumn;
+                mastu['type']=this.fil_typ;
+                mastu['term']=this.searchterms;
+
+                return mastu;
+            },
+
+
+
+
+
+
+
+        },
+        watch:{
+            full_options:function(neo,olo){
+
+
+
+            },
+
+            full_series:function(nfs,ofs){
+
+
+
+            },
+
+
+
+
+
+
+            selected_derived:function (new_ncr,old_ncr) {
+
+                var mycolors=['#0084ff','darkcyan','#00e1ff',  '#a6ff00','red'];
+
+
+                var my_ano=[];
+
+                //console.log(new_ncr);
+
+                for(let p=0;p<new_ncr.length;p++){
+                    var ana={};
+                    ana['x']=new_ncr[p]['start'];
+                    ana['x2']=new_ncr[p]['end'];
+                    ana['fillColor']=mycolors[p%(mycolors.length)];
+                    ana['label']={'borderColor':'black','position':'top',
+                        'style': {
+                            'fontSize': '10px',
+                            'color': 'black',
+                            'background': 'gold'
+                        },
+                        'text':'Potential derived RNA'
+                    };
+                    ana['opacity']=0.3;
+                    my_ano.push(ana);
+
+                    //console.log(this.sequence_area);
+
+
+                    //console.log(ana);
+                }
+
+                this.options={annotations:{xaxis:my_ano},title:{text:this.get_sel_name}};
+
+                var qry=[];
+                for(let p=0;p<new_ncr.length;p++){
+                    qry.push(this.sequence_area.substring(new_ncr[p]['start'],new_ncr[p]['end']));
+
+                }
+                this.query=qry;
+
+
+
+
+
+
+
+
+
+
+                //return my_ano;
+
+
+            },
+            selected_ncr:function(newth,oldth){
+                axios.get('/api/ncr_sequence?f_ncr_seq='+newth).then(response=>(this.kani(response)));
+            },
+            read_dev:function(newr,oldr){
+                var rpmdev=JSON.parse(newr);
+                for(var i=0; i<rpmdev.length;i++){
+                    rpmdev[i]=((rpmdev[i]/this.total_reads)*1000000).toFixed(1);
+                }
+                this.selected_dev=rpmdev;
+
+            },
+            sequence_area:function (newsq,oldsq) {
+
+                var qry=[];
+                for(let p=0;p<this.selected_derived.length;p++){
+                    qry.push(newsq.substring(this.selected_derived[p]['start']-1,this.selected_derived[p]['end']));
+
+                }
+                this.query=qry;
+
+                //document.getElementById('foobar').addEventListener('click', e => {
+                   // var selection = window.getSelection();
+                    //console.log(selection.focusNode.data, selection.focusOffset);
+                   // console.log(selection.focusNode.data[selection.focusOffset]);
+                   // alert(selection.focusOffset);
+               // });
+
+
+                //console.log(this.selected_derived);
+
+
+
+
+            },
+            filteredRNAs:function(newflt,oldflt){
+                this.ncr_clickd(newflt[0]);
+
+            },
+            comparing_files:function(ncf,ocf){
+
+                //alert(tval);
+                //console.log(ncf);
+                if(this.searchterms!==''){
+                    const Toast = Swal.mixin({
+                        toast: true,
+                        position: 'top',
+                        showConfirmButton: false,
+                        timer: 5000,
+                        //timerProgressBar: true,
+
+                        onOpen: (toast) => {
+                            toast.addEventListener('mouseenter', Swal.stopTimer);
+                            toast.addEventListener('mouseleave', Swal.resumeTimer);
+                        }
+                    });
+
+                    Toast.fire({
+                        icon: 'success',
+                        title: '<a style="color:lightslategray">Filter is automatically applied to the current table when not empty!! You can reset filter by using "filter table" button</a>'
+                    });
+                }
+
+
+
+                let newtabcols=[];
+
+
+                newtabcols.push(genething);
+                newtabcols.push(transcript_thing);
+                newtabcols.push(annotthing);
+                newtabcols.push(typething);
+                //newtabcols.push(fragthingag);
+                //newtabcols.push(seqavgthing);
+
+
+
+                this.mn_tab_cols=newtabcols;
+
+
+
+                this.rterm_disabled=1;
+                this.sterm_disabled=1;
+                let kk=ncf.join(';--;');
+
+                this.populate_aggregations(kk);
+                this.rterm_disabled=0;
+                this.sterm_disabled=0;
+
+                let mval={};
+
+                let ser_thing={};
+
+                this.full_options=mval;
+
+                this.full_series=ser_thing;
+
+
+
+
+
+            },
+
+
+        }
+    });
+
+
+
+
+
+</script>
+{% endblock %}
+
+
+
+
+{% endblock content %}
+

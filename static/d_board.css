@@ -1,0 +1,88 @@
+.col-lg-10{
+    -ms-flex:0 0 43.333333%;
+    flex:0 0 43.333333%;
+    max-width:31.333333%;
+}
+
+.col-lg-boo{
+    -ms-flex:0 0 43.333333%;
+    flex:0 0 43.333333%;
+    max-width: 35%;
+}
+
+.vs__dropdown-mnu{
+    box-shadow: inset 0 0 2.85px !important;
+
+    font-family: 'Josefin Sans', sans-serif !important;
+    background-image:url(img/portfolio/form_bg.jpg);
+    background-repeat:repeat-x;
+    background-size: cover;
+    border:1px solid #d1c7ac;
+}
+
+.astrodividers span {
+    width:40px; height:50px;
+    position:relative;
+    bottom:100%; margin-bottom:-25px;
+    left:50%; margin-left:-25px;
+    border-radius:10px/30px;
+
+    box-shadow: 0 0 0 darkolivegreen, 0 5px 10px rgba(0, 0, 0, .25);
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.01) 0%, rgba(0, 0, 0, 0.05) 100%), url("../img/bg-new.jpg");
+    opacity: 0.8;
+}
+.astrodividers i {
+
+    position:absolute;
+    top:4px; bottom:4px;
+    left:4px; right:4px;
+    border-radius:10px/30px;
+    box-shadow: 0 0 0 darkolivegreen, 0 5px 10px rgba(0, 0, 0, .25);
+    text-align:center;
+    line-height:40px;
+    font-style:normal;
+
+}
+
+.mx-autoy{
+    margin-right:auto!important;
+    margin-left:auto!important;
+    position: center;
+}
+
+.table-hover,
+.table-hover > thead > tr > th,
+.table-hover > tbody > tr > td {
+    border-color: black;
+    text-align: center;
+
+    vertical-align: middle;
+}
+.table-hover .checkbox {
+    margin: 0;
+    text-align: left;
+}
+
+
+.keen-dashboard .chart-wrapper .chart-stage {
+    overflow: hidden;
+    padding-left:  5px;
+    padding-right: 5px;
+    position: relative;
+
+}
+
+.containers{margin-right:auto;margin-left:auto;position:relative;width:30%}
+
+.apexcharts-tooltip {
+    border-color: black;
+
+    color: black;
+}
+
+textarea {
+    font-family: Lucida Sans Unicode;
+    font-size: 500px;
+}
+
+

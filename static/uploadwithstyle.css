@@ -1,0 +1,75 @@
+.erpl{
+	text-align: center;
+	
+	font-weight:bold;
+	 display: inline-block;
+    color: black;
+	
+}
+.erpl span{
+	font-family: 'Raleway', sans-serif;
+	font-size: 37px;
+	
+}
+
+.buttonn body {
+    text-align: center;
+}
+
+.buttonn {
+    display: inline-block;
+    margin: 10px;
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow:    0 8px 0 #faaf5f, 0 15px 20px rgba(0, 0, 0, .35);
+    -moz-box-shadow: 0 8px 0 #faaf5f, 0 15px 20px rgba(0, 0, 0, .35);
+    box-shadow: 0 8px 0 #faaf5f, 0 15px 20px rgba(0, 0, 0, .35);
+    -webkit-transition: -webkit-box-shadow .1s ease-in-out;
+    -moz-transition: -moz-box-shadow .1s ease-in-out;
+    -o-transition: -o-box-shadow .1s ease-in-out;
+    transition: box-shadow .1s ease-in-out;
+    font-size: 37px;
+	font-weight:bold;
+	
+    color: black;
+}
+
+.buttonn span {
+    display: inline-block;
+    padding: 20px 30px;
+    background-color: #fccc5f;
+    
+    -webkit-border-radius: 8px;
+    -moz-border-radius: 8px;
+    border-radius: 8px;
+    -webkit-box-shadow: inset 0 -1px 1px rgba(300,175,95,15);
+    -moz-box-shadow: inset 0 -1px 1px rgba(300,175,95,15);
+    box-shadow: inset 0 -1px 1px rgba(300,175,95,15);
+    font-family: 'Raleway', sans-serif;
+    line-height: 1;
+    text-shadow: 0 -1px 1px #ffaf5f;
+    -webkit-transition: background-color .2s ease-in-out, -webkit-transform .1s ease-in-out;
+    -moz-transition: background-color .2s ease-in-out, -moz-transform .1s ease-in-out;
+    -o-transition: background-color .2s ease-in-out, -o-transform .1s ease-in-out;
+    transition: background-color .2s ease-in-out, transform .1s ease-in-out;
+	color: black;
+}
+
+.buttonn:hover span {
+    background-color: #fab464;
+    text-shadow: 0 -1px 1px #fff, 0 0 5px rgba(300,175,95,15);
+}
+
+.buttonn:active, .button:focus {
+    -webkit-box-shadow:    0 8px 0 #ffaf5f, 0 12px 10px rgba(0, 0, 0, .3);
+    -moz-box-shadow: 0 8px 0 #ffaf5f, 0 12px 10px rgba(0, 0, 0, .3);
+    box-shadow:    0 8px 0 #ffaf5f, 0 12px 10px rgba(0, 0, 0, .3);
+}
+
+.buttonn:active span {
+    -webkit-transform: translate(0, 4px);
+    -moz-transform: translate(0, 4px);
+    -o-transform: translate(0, 4px);
+    transform: translate(0, 4px);
+}

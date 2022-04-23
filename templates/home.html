@@ -1,0 +1,66 @@
+{% extends "layout.html" %}
+{% block content %}
+     <section class="u-pt-md-150 pb-0 u-h-100vh bg-grey">
+
+
+
+         <div class="container myth text-center mb-4" style="margin-top: 30px;border-color: darkgrey; border-radius: 20px; box-shadow: 0 0 0 darkolivegreen, 0 2px 2px rgba(0, 0, 0, .35);padding: 0;min-width: 85%">
+
+
+             <div class="myth card tab_thing text-center" style="  border-radius: 12px;box-shadow: inset 0 0 2.85px !important;width: 100% !important;  padding: 20px !important;">
+
+             <!---div class="card navbar navbar-expand-lg navbar-light " style="border-radius: 20px;"!--->
+
+                 <div class="jumbotron my-4" style="min-width:85%;border-radius: 20px ;box-shadow: inset 0 0 2.85px !important;padding:2.5%">
+
+                     <div class="container" style="width: 100% !important;">
+                         <h1 class="display-4 mb-3" style="font-size:2.8em;    font-family: 'Cinzel', serif; margin-top: 20px;text-shadow:-1px 1px 1px #ffffff,1px 1px 1px #23430C;">An Ultimate Refreshment Engine.</h1>
+
+                         <div class="u-h-4 u-w-50 bg-primary rounded mt-4 mb-3 mx-auto"></div>
+
+
+                         <h2 style="font-family: 'Square Peg', cursive; font-size: 45px !important;">The Toner Music App</h2>
+
+
+
+                         <a  class="buttonn mb-2" id="mybuttn" title="Login to your account" style="border-radius: 200px; cursor: pointer;" href="{{url_for('login')}}" >
+                             <span class="bbn" style="border-bottom:solid 2px rgba(300,175,125,85);opacity: 0.85;border-radius: 500px;text-shadow: 1px 1px 1px rgb(218,165,32) !important;font-size:large;min-width: 175px !important;" >Login</span>
+                         </a>
+
+                         <img src="{{ url_for('static', filename='img/wings copy.png') }}" style="opacity: 0.35"  width="500" />
+
+                         <a  class="buttonn mb-2" id="mybuttn2" title="Register on Toner App" style="border-radius: 200px; cursor: pointer;" href="{{url_for('register')}}" >
+                             <span class="bbn" style="border-bottom:solid 2px rgba(300,175,125,85);opacity: 0.85;border-radius: 500px;text-shadow: 1px 1px 1px rgb(218,165,32) !important;font-size:large;min-width: 175px" >Register</span>
+                         </a>
+                     </div>
+
+                     <h2 style="font-family: 'Square Peg', cursive; font-size: 45px !important; margin-top: -40px">One Place For All Of Your Favorite Music</h2>
+
+
+                 </div>
+
+
+
+
+                 </div>
+
+                 <!-- Collapse button -->
+
+
+
+                 <!-- Collapsible content -->
+
+
+             </div>
+         </div>
+
+
+					 
+					 
+
+
+      </section>
+
+<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='uploadwithstyle.css') }}">	  
+    
+{% endblock content %}
