@@ -45,6 +45,11 @@ def dashboard():
 
     return render_template('dashboard.html', title='Login')
 
+@app.route("/logout", methods=['GET'])
+def logout():
+
+    return render_template('logout.html', title='logout')
+
 
 @app.route("/upload", methods=['GET', 'POST'])
 def upload():

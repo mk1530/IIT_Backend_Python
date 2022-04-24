@@ -21,14 +21,18 @@
 
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static2.css') }}">
-	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='font-awesome.min.css') }}">
+	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='fontawesome.css') }}">
 	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='static1.css') }}">
 	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='bundle.css') }}">
 	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 	  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='ggl.css') }}">
 
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 
 
+    <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap" rel="stylesheet">
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
 
         <title>TONER</title>
@@ -56,7 +60,7 @@
 
 
 
-               <h2 class="logo-brand-color" style="color:white;font-family: 'Square Peg', cursive; font-size: 40px !important;">Toner</h2>
+               <h2 class="logo-brand-color" style="color:white;font-family: 'Square Peg', cursive; font-size: 40px !important;text-shadow:1px 1px 4px #000000">Toner</h2>
                    &nbsp;
 
                                       <img src="{{ url_for('static', filename='img/favpng_saxophone-icon.png') }}" width="65" />
@@ -77,10 +81,10 @@
                   <ul class="navbar-nav ml-auto">
                     
                      <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('register')}}" data-scrollto="features" style="color: #fccc5f !important; ">REGISTER</a>
+                        <a class="nav-link" href="{{url_for('register')}}" data-scrollto="features" style="color: ghostwhite !important;text-shadow:1px 1px 4px #000000;font-size: 25px !important;font-family: 'Square Peg', cursive; ">REGISTER</a>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link" href="{{url_for('login')}}" data-scrollto="reviews" style="color: #fccc5f !important;">LOG IN</a>
+                        <a class="nav-link" href="{{url_for('login')}}" data-scrollto="reviews" style="color: ghostwhite !important;text-shadow:1px 1px 4px #000000;font-size: 25px !important;font-family: 'Square Peg', cursive;">LOG IN</a>
                      </li>
                     
                   </ul>
